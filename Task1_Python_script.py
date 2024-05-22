@@ -9,17 +9,17 @@ import re
 from bs4 import BeautifulSoup
 # Code ends here
 
-# function to get the html source text of the medium article
+# function to get the html source text
 def get_page():
 	global url
 	
-	# Code here - Ask the user to input "Enter url of a medium article: " and collect it in url
-	url = input("Enter url of a medium article: ")
+	# Code here - Ask the user to input "Enter url: " and collect it in url
+	url = input("Enter url: ")
 	# Code ends here
 	
 	# handling possible error
-	if not re.match(r'https?://medium.com/',url):
-		print('Please enter a valid website, or make sure it is a medium article')
+	if not re.match(r'https?://www.blogto.com/',url):
+		print('Please enter a valid website')
 		sys.exit(1)
 
 	# Code here - Call get method in requests object, pass url and collect it in res
@@ -41,12 +41,16 @@ def clean(text):
 
 
 def collect_text(soup):
+	rich_content_div = soup.find('div', class_='rich-content')
+	para_text = rich_content_div.get_text()
+	# para_text = rich_content_div.get_text(separator='', strip=True)
 	text = f'url: {url}\n\n'
-	para_text = soup.find_all('p')
-	print(f"paragraphs text = \n {para_text}")
+	# para_text = soup.find_all('p')
+	# print(f"paragraphs text = \n {para_text}")
 	for para in para_text:		
 		# text += f"{para.text}\n\n" # this takes away the effect of clean()
-		text += f"{para}\n\n"
+		# text += f"{para}\n\n"
+		text += f"{para}"
 	return text
 
 # function to save file in the current directory
